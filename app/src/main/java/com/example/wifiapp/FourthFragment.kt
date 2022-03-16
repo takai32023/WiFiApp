@@ -7,10 +7,14 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.*
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.wifiapp.databinding.FragmentFourthBinding
+import com.example.wifiapp.databinding.FragmentMainBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -27,6 +31,18 @@ class FourthFragment : Fragment() {
         super.onCreate(savedInstanceState)
         var context: Context
         cellInfoToTV()
+    }
+
+    private var _binding: FragmentFourthBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentFourthBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
     private fun cellInfoToTV(){
@@ -139,11 +155,13 @@ class FourthFragment : Fragment() {
                     }
                 }
             }
-
-            var binding = FragmentFourthBinding.inflate(layoutInflater)
             binding.cellinfo.text = sb.toString()
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
     //Cellの取得
     private fun getCellInformation(result:(List<CellInfo>)-> Unit) {
